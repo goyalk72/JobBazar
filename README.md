@@ -5,7 +5,10 @@ JobBazar is a web application for users to find and post blue-collar jobs.
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Design](#design)
 * [Setup](#setup)
+* [Run](#run)
+* [Features](#features)
 
 ## General info
 A simple web portal for listing, searching and applying to jobs. The app supports login using email or mobile number (as some workers might not have an email id). The app is kept the same for job seekers as well as recruiters. After logging in, a worker can see his profile including name, location, skills, experience and other relevant details. The search job feature is kept simple as well wherein, you can enter a keyword which can be the location, company name, job type or job description and you can view the jobs accordingly. The app works for recruiters as well wherein they can view the relevant details of the applicants for every job as well.

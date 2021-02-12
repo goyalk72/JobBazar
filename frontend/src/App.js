@@ -144,7 +144,7 @@ class App extends Component{
   };
 
   onFinishFailed = (errorInfo) => {
-    message.error(errorInfo)
+    console.error(errorInfo)
   };
 
   render(){

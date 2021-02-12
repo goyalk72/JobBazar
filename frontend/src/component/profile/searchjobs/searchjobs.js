@@ -18,11 +18,14 @@ class SearchJobs extends Component {
 
     onSearch = (value) => {
         this.setState({
-            query: value
+            query: value,
+            loading:true
         });
         axios.get("http://127.0.0.1:3030/searchjobs", {
             params:{
-                query: this.state.query
+                query: this.state.query,
+                email: this.props.email,
+                mobile: this.props.mobile
             }
         })
         .then( res => {
@@ -33,7 +36,7 @@ class SearchJobs extends Component {
         }).catch(err => {
             console.log(err);
         });
-    }
+     }
 
     componentDidMount() {
         this.props.startLoading()

@@ -77,7 +77,7 @@ class Savedjobs extends Component{
             salary={job.job.salary}
             date={job.job.date}
             tokens={job.job.tokens}
-            num = {job.job.applicants.length}
+            num = {job.job.applicants ? job.job.applicants.length : 0}
             issaved={job.issaved}
             isapplied={job.isapplied}
             />

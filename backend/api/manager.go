@@ -126,7 +126,10 @@ func SendJobs(s *Server, context echo.Context, query string, field string, field
 			context.JSON(http.StatusInternalServerError, errormsg)
 			return err
 		}
-		var response []*Job
+		var login Login
+		collection = s.db.Database("jobBazar").Collection("login")
+		err = collection.FindOne(ctx, bson.M{field: fieldval}).Decode(&login)
+		var response []*Userjob
 		for cursor.Next(ctx) {
 			var j *Job
 			err = cursor.Decode(&j)
@@ -135,7 +138,21 @@ func SendJobs(s *Server, context echo.Context, query string, field string, field
 				context.JSON(http.StatusInternalServerError, errormsg)
 				return err
 			}
-			response = append(response, j)
+			uj := &Userjob{
+				Job:       j,
+				IsSaved:   false,
+				IsApplied: false}
+			for _, app := range login.AppliedJobs {
+				if app.Jobid.Hex() == j.Id.Hex() {
+					uj.IsApplied = true
+				}
+			}
+			for _, app := range login.SavedJobs {
+				if app.Hex() == j.Id.Hex() {
+					uj.IsSaved = true
+				}
+			}
+			response = append(response, uj)
 		}
 		context.JSON(http.StatusOK, response)
 	}
@@ -399,7 +416,7 @@ func RegisterUserDatabase(s *Server, context echo.Context, user *User, password 
 		Contact:  user.Contact,
 		Profile:  userid,
 	}
-	loginid, err := collection.InsertOne(ctx, login)
+	_, err = collection.InsertOne(ctx, login)
 	if err != nil {
 		log.Fatal(err)
 		context.JSON(http.StatusInternalServerError, errormsg)
